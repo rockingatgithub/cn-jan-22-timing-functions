@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h2> Clock </h2>
+
+    <p> Enter time for timer </p>
+
+    <div> <span id="hour"> </span> <span id="min"></span> <span id="sec"></span> <span id="milli-sec"></span> </div>
+
+    <input type="number" id="hour-value" /> : <input type="number" id="min-value" /> : <input type="number"
+        id="sec-value" />
+
+    <button id="start"> Start </button> <button id="stop" onclick="stopWatchTime()"> Stop </button>
+
+    <script>
+
+        function startTimerHandler() {
+
+            let hourValue = Number(document.getElementById("hour-value").value);
+            let minValue = Number(document.getElementById("min-value").value);
+            let secValue = Number(document.getElementById("sec-value").value);
+
+            let totalMilliSeconds = (hourValue * 60 * 60 + minValue * 60 + secValue) * 1000
+            let currentSeconds = 1
+            let setIntervalId = setInterval(function () {
+
+                document.getElementById("sec").innerText = currentSeconds++;
+
+            }, 1000)
+
+            setTimeout(function () {
+                clearInterval(setIntervalId)
+                alert("Timeout Complete!")
+            }, totalMilliSeconds)
+        }
+
+
+        let startButton = document.getElementById("start");
+        // startButton.addEventListener('click', startTimerHandler);
+        startButton.addEventListener('click', startStopWatch);
+
+
+
+        let setIntervalId;
+
+        function startStopWatch () {
+
+            let startTime = new Date();
+            setIntervalId = setInterval(function () {
+                let currentTime = new Date();
+                let totalTimeElapsed = ( (currentTime.getHours() - startTime.getHours()) * 60 * 60
+                                        + (currentTime.getMinutes() - startTime.getMinutes()) * 60
+                                        + (currentTime.getSeconds() - startTime.getSeconds()) ) * 1000 
+                                        + (currentTime.getMilliseconds() - startTime.getMilliseconds()); 
+                
+                document.getElementById("sec").innerText = Math.round(totalTimeElapsed / 1000);
+                document.getElementById("milli-sec").innerText = currentTime.getMilliseconds() - startTime.getMilliseconds()
+
+
+            }, 1)
+
+        }
+
+
+        function stopWatchTime () {
+            clearInterval(setIntervalId)
+            alert(` Total time Elapsed : ${document.getElementById("sec").innerText}  `)
+        }
+
+
+    </script>
+
+</body>
+
+</html>
